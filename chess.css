@@ -36,6 +36,12 @@ li {
     height: 75px;
 }
 
+.box > img{
+    margin: .5px;
+    width: 75px;
+    height: 75px;
+}
+
 #tog {
     margin: 10px 0px;
 }

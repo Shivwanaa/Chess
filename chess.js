@@ -121,7 +121,7 @@ function setupBoxClickListeners() {
         const boxName = e.target.tagName === 'IMG' ? e.target.parentNode : e.target;
         const box = document.getElementById(boxName.id);
 
-        if (box.innerText.trim().startsWith(currentPlayer)) {
+        if (box.children[0].id.startsWith(currentPlayer)) {
             resetBoxColors();
             showPossibleMoves(box);
             clickedId = box.id;
