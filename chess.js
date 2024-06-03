@@ -1,3 +1,5 @@
+const menu=document.getElementById("menu");
+menu.disabled=false;
 document.getElementById('toggleSidebarButton').addEventListener('click', function() {
     var sidebar = document.getElementById('sidebar');
     if (sidebar.style.left === "0px") {
@@ -6,7 +8,6 @@ document.getElementById('toggleSidebarButton').addEventListener('click', functio
         sidebar.style.left = "0px"; /* Show the sidebar */
     }
 });
-
 
 let currentPlayer = 'r';
 let glist=[];
@@ -1117,6 +1118,7 @@ function change(){
     redTimer.start();
     document.getElementById('playerTurn').textContent = "Red's Turn";
     document.getElementById('playerTurn').style.backgroundColor = "red";
+    menu.disabled=true;
 
 
     if(singleplayermode===true){
@@ -1127,11 +1129,13 @@ function change(){
 function pauseBothTimers() {
     redTimer.pause();
     blueTimer.pause();
+    menu.disabled=true;
 }
 
 function resetBothTimers() {
     redTimer.reset();
     blueTimer.reset();
+    menu.disabled=false;
 }
 document.getElementById('pause-both').addEventListener('click', pauseBothTimers);
 document.getElementById('reset-both').addEventListener('click', resetBothTimers);
@@ -1543,7 +1547,6 @@ function getOppositePosition(position) {
 document.addEventListener('DOMContentLoaded', function() {
     const single = document.getElementById('myButton');
     const optionsDiv = document.getElementById('options');
-    const RedButton = document.getElementById('red');
     const BlueButton = document.getElementById('blue');
   
     single.addEventListener('click', function() {
@@ -1556,12 +1559,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   
     // Add event listeners for option buttons
-    RedButton.addEventListener('click', function() {
-        singleplayermode=true;
-      // Your code for handling Option 1
-      console.log('redOption 1 clicked');
-      cplayer('r');
-    });
   
     BlueButton.addEventListener('click', function() {
       // Your code for handling Option 2
@@ -1704,16 +1701,22 @@ document.getElementById("menu").addEventListener("click", function() {
     }
   });
   
-  document.getElementById("random").addEventListener("click", function() {
+
+let buttonClicked = false;
+
+document.getElementById("random").addEventListener("click", function() {
     // Add functionality for the "Randomized" button here
+    buttonClicked = true;
     document.getElementById("overlay").style.display = "none";
-  });
-  
-  document.getElementById("myButton").addEventListener("click", function() {
+});
+
+document.getElementById("myButton").addEventListener("click", function() {
     // Add functionality for the "Single Player Mode" button here
-    document.getElementById("overlay").style.display = "none";
-  });
-  
+    const blueButton = document.getElementById("blue");
+    if (blueButton.classList.contains("selected") && !buttonClicked) {
+        document.getElementById("overlay").style.display = "none";
+    }
+});
 
 
   
