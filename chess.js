@@ -44,10 +44,20 @@ document.addEventListener('DOMContentLoaded', function() {
          const gameOverScreen = document.getElementById('gameOverScreen');
          const replayButton = document.getElementById('replayButton');
      })
-     function showGameOverScreen() {
-           const gameOverScreen = document.getElementById('gameOverScreen');
-           gameOverScreen.style.display = 'flex';
-         }
+    function showGameOverScreen(winner) {
+        var winnerc = '';
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        const winnerMessage = document.getElementById('WinnerMessage');
+        if (winner === 'r') {
+            winnerc = "Red";
+        } else {
+            winnerc = "Blue";
+        }
+        winnerMessage.textContent = `${winnerc} won the game!`; // Correct string interpolation
+        gameOverScreen.style.display = 'flex';
+    }
+    
+    
 
 function insertImage() {
         document.querySelectorAll('.box').forEach((image) => {
@@ -61,7 +71,7 @@ function insertImage() {
 function resetBoxColors() {
     const boxes = document.querySelectorAll('.box');
     boxes.forEach((box) => {
-        box.style.backgroundColor = 'rgba(240,201,150)';
+        box.style.backgroundColor = 'rgba(186, 201, 239)';
     });
 }
 let clickedcontent;
@@ -549,12 +559,9 @@ function checkele(bullet, stopele, c) {
     var opp = c == 'r' ? 'b' : 'r';
 
     if (stopele.innerText == `${opp}titan`) {
-        alert(`${c} won`);
         pauseBothTimers();
         removeImage(stopele.id);
-        showGameOverScreen();
-
-        
+        showGameOverScreen(`${c}`);
         return false;
     }
 
@@ -731,7 +738,7 @@ function moveupBulletRed(stopele, c) {
     console.log(stopele1);
     console.log(stopid);
 
-    // Recursive movement handling
+
     const handleMovement = () => {
         console.log('handlemovement called !!');
         if (stopele) {
@@ -1101,10 +1108,17 @@ redTimer.updateDisplay();
 function startGameTimer() {
     blueTimer.start();
     redTimer.pause();
+    document.getElementById('playerTurn').textContent = "Blue's Turn";
+    document.getElementById('playerTurn').style.backgroundColor = "blue";
+
 }
 function change(){
     blueTimer.pause();
     redTimer.start();
+    document.getElementById('playerTurn').textContent = "Red's Turn";
+    document.getElementById('playerTurn').style.backgroundColor = "red";
+
+
     if(singleplayermode===true){
         robotMove();
     }
@@ -1677,40 +1691,6 @@ async function robotMove() {
     // resetBoxColors();
     const singlePlayerMode = true; 
 };
-// document.getElementById("menu").addEventListener("click", function() {
-//     var optionsDiv = document.getElementById("options");
-//     if (optionsDiv.style.display === "none") {
-//       optionsDiv.style.display = "block";
-//     } else {
-//       optionsDiv.style.display = "none";
-//     }
-//   });
-  
-//   document.getElementById("myButton").addEventListener("click", function() {
-//     var submenuDiv = document.getElementById("submenu");
-//     if (submenuDiv.style.display === "none") {
-//       submenuDiv.style.display = "block";
-//     } else {
-//       submenuDiv.style.display = "none";
-//     }
-//   });
-// document.getElementById("menu").addEventListener("click", function() {
-//     var menuOptionsDiv = document.getElementById("menuOptions");
-//     if (menuOptionsDiv.style.display === "none") {
-//       menuOptionsDiv.style.display = "block";
-//     } else {
-//       menuOptionsDiv.style.display = "none";
-//     }
-//   });
-  
-//   document.getElementById("myButton").addEventListener("click", function() {
-//     var submenuDiv = document.getElementById("submenu");
-//     if (submenuDiv.style.display === "none") {
-//       submenuDiv.style.display = "block";
-//     } else {
-//       submenuDiv.style.display = "none";
-//     }
-//   });
 document.getElementById("menu").addEventListener("click", function() {
     var overlay = document.getElementById("overlay");
     var menuOptions = document.getElementById("menuOptions");
