@@ -1,15 +1,19 @@
+document.getElementById('toggleSidebarButton').addEventListener('click', function() {
+    var sidebar = document.getElementById('sidebar');
+    if (sidebar.style.left === "0px") {
+        sidebar.style.left = "-300px"; /* Hide the sidebar */
+    } else {
+        sidebar.style.left = "0px"; /* Show the sidebar */
+    }
+});
+
+
 let currentPlayer = 'r';
 let glist=[];
+let isPaused = false;
+let ncp;
 var sidebarContent=[];
-var positioned=true;
-console.log(positioned);
 var singleplayermode=false;
-const s=0;
-var love=0;
-var plss=0;
-var smc=false;
-
-
 const randombutton = document.getElementById('random');
         randombutton.addEventListener('click', function() {
             console.log("shivu");
@@ -39,15 +43,12 @@ const randombutton = document.getElementById('random');
 document.addEventListener('DOMContentLoaded', function() {
          const gameOverScreen = document.getElementById('gameOverScreen');
          const replayButton = document.getElementById('replayButton');
-         const revideoButton=document.getElementById('revideob');
-         
-     });
+     })
      function showGameOverScreen() {
            const gameOverScreen = document.getElementById('gameOverScreen');
            gameOverScreen.style.display = 'flex';
          }
 
-if(positioned===true){
 function insertImage() {
         document.querySelectorAll('.box').forEach((image) => {
             if (image.innerText !== '') {
@@ -56,10 +57,6 @@ function insertImage() {
             }
         });
     }
-}
-
-
-
 
 function resetBoxColors() {
     const boxes = document.querySelectorAll('.box');
@@ -71,9 +68,13 @@ let clickedcontent;
 let clickedId;
 var state = true;
 const handleBoxclick = (e) => { };
-var selectedPiece = null;
+
 var swapped=false;
 let swap_arr=[];
+
+
+
+
 function setupBoxClickListeners() {
     const boxes = document.querySelector('ul');
     currentPlayer = 'b'; 
@@ -148,7 +149,7 @@ function setupBoxClickListeners() {
                     const item2 = box;
                     const a = parseInt(clickedId.slice(1));
                     let ay;
-                    if (item2.innerText === 'rcanon' || item2.innerText === 'bcanon') {
+                    if (document.getElementById(clickedId).innerText==='rcanon'||document.getElementById(clickedId).innerText==='bcanon') {
                         ay = [a + 1, a - 1];
                     } else {
                         ay = [a + 1, a - 1, a + 10, a - 10, a + 11, a + 9, a - 9, a - 11];
@@ -194,16 +195,15 @@ function setupBoxClickListeners() {
             } else {
                 resetBoxColors();
             }
-        }
+        
     }
+}
     });
     
 }
 
 
-
 function showPossibleMoves(item) {
-    console.log(item);
     if (item.innerText !== '') {
         var getId = item.id;
         var a = parseInt(getId.slice(1));
@@ -223,9 +223,6 @@ function showPossibleMoves(item) {
                 targetElement.style.backgroundColor = 'green';
             }
         }
-
-
-        console.log(item.innerText);
         if(item.innerText==='rricochet'||item.innerText==='bricochet'){
             console.log("shivu");
             document.getElementById('rotate').style.visibility = 'visible';
@@ -258,6 +255,8 @@ function showPossibleMoves(item) {
             console.log(item);
 
         }
+
+        console.log(item.innerText);
         if (
             item.innerText === 'rsemi' ||
             item.innerText === 'bsemi' ||
@@ -266,27 +265,18 @@ function showPossibleMoves(item) {
             item.innerText === 'rsemi1' ||
             item.innerText === 'bsemi1'
         ) {
+            document.getElementById('rotate').style.visibility = 'visible';
             const buttonR = document.getElementById('right-turn');
             const buttonL = document.getElementById('left-turn');
-            buttonR.addEventListener('click', rotateRight);
-            buttonL.addEventListener('click', rotateLeft);
-            console.log(item);
-            const pls =item;
-            // console.log(document.getElementById('rotate').style.visibility);
-            function rotateRight() {
-                console.log(item);
-                console.log(document.getElementById('rotate').style.visibility);
-                const img = document.getElementById(item.innerText);
-
             
+            function rotateRight() {
+                const img = document.getElementById(item.innerText);
                 const currentRotation = img.style.transform
                     ? parseInt(img.style.transform.replace('rotate(', '').replace('deg)', ''))
                     : 0;
-                console.log(currentRotation);
                 const newRotation = currentRotation + 90;
-            
+
                 img.style.transform = `rotate(${newRotation}deg)`;
-                console.log(img.style.transform);
                 document.getElementById('rotate').style.visibility = 'hidden';
                 resetBoxColors();
                 buttonR.removeEventListener('click', rotateRight);
@@ -305,12 +295,11 @@ function showPossibleMoves(item) {
                     currentPlayer = " ";
                     placeBullet("blue", "b");
                     fireBullet("b");
+                    // currentPlayer = newcp;
                 }
-                if(singleplayermode === false){
-                    currentPlayer = newcp === 'r' ? 'b' : 'r';
-                    console.log(currentPlayer);
-                    state = true;
-                }
+                currentPlayer = newcp=== 'r' ? 'b' : 'r';
+                console.log(currentPlayer);
+                state=true;
             }
 
             function rotateLeft() {
@@ -319,8 +308,6 @@ function showPossibleMoves(item) {
                     ? parseInt(img.style.transform.replace('rotate(', '').replace('deg)', ''))
                     : 0;
                 const newRotation = currentRotation - 90;
-                console.log(currentRotation);
-                console.log(newRotation);
 
                 img.style.transform = `rotate(${newRotation}deg)`;
                 document.getElementById('rotate').style.visibility = 'hidden';
@@ -344,28 +331,18 @@ function showPossibleMoves(item) {
                     fireBullet("b");
                     currentPlayer = newcp;
                 }
-                // if(singleplayermode===false){
-                //  currentPlayer = newcp === 'r' ? 'b' : 'r';
-                // state=true;
-                // }
+                currentPlayer = newcp === 'r' ? 'b' : 'r';
+                state=true;
             }
 
-            // buttonR.addEventListener('click', rotateRight);
-            // buttonL.addEventListener('click', rotateLeft);
-            // swapbutton.addEventListener('click',swap);
-            
+            buttonR.addEventListener('click', rotateRight);
+            buttonL.addEventListener('click', rotateLeft);
         }
     }
 }
-
-
-console.log(positioned);
-if(positioned===true){
-     insertImage()
-}
+insertImage();
 resetBoxColors();
 setupBoxClickListeners();
-// resetBoxColors();
 
 function placeBullet(color, c) {
     
@@ -436,33 +413,18 @@ function moveBullettUp(bullet, targetBottom, onComplete) {
     let bottom = parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom"));
     if (bottom < targetBottom) {
         if(!isPaused)
-             bullet.style.bottom = (bottom + 10) + "px";
+             bullet.style.bottom = (bottom + 10) + "px"; // Move the bullet up
         requestAnimationFrame(() => moveBullettUp(bullet, targetBottom, onComplete));
     } else {
         if (onComplete) onComplete();
     }
 }
-function moveBullettUp(bullet, targetBottom, onComplete) {
-    let bottom = parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom"));
-    // Set targetBottom to ensure it is a number
-    targetBottom = parseInt(targetBottom);
-
-    if (bottom < targetBottom) {
-        if (!isPaused) {
-            bullet.style.bottom = (bottom + 10) + "px";
-        }
-        requestAnimationFrame(() => moveBullettUp(bullet, targetBottom, onComplete));
-    } else {
-        if (onComplete) onComplete();
-    }
-}
-
 
 function moveBluebulletDown(bullet, targetBottom, onComplete) {
     let bottom = parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom"));
     if (bottom > targetBottom) {
-        if(!isPaused){
-           bullet.style.bottom = (bottom - 10) + "px";} // Move the bullet up
+        if(!isPaused)
+           bullet.style.bottom = (bottom - 10) + "px"; // Move the bullet up
         requestAnimationFrame(() => moveBluebulletDown(bullet, targetBottom, onComplete));
     } else {
         if (onComplete) onComplete();
@@ -494,71 +456,89 @@ function moveBulletRight(bullet, targetLeft, onComplete) {
     }
 }
 function calc_dist(bullet, color, posn, canon_posn) {
-    let row = parseInt(posn.slice(1, 2));
-    let col = parseInt(posn.slice(2));
-    let canon_col = parseInt(canon_posn.slice(2));
-    let present = false;
-    let dist = 0;
-    let newDiv = null;
-
-    if (bullet.classList.contains('down')) {
-        let i = row - 1;
-        while (i > 0) {
-            const id = 'b' + i + col;
-            newDiv = document.getElementById(id);
-            if (newDiv && newDiv.innerHTML !== '') {
-                present = true;
-                break;
+    row = parseInt(posn.slice(1, 2));
+    col = parseInt(posn.slice(2));
+    console.log(row);
+    console.log(col);
+    canon_col = parseInt(canon_posn.slice(2));
+    console.log(bullet.className);
+    var present = false;
+    if (bullet.className == "down" || bullet.className == "up") {
+        //var stopid;
+        //var stop
+        if (bullet.className == 'down') {
+            var i = row - 1;
+            while (i > 0) {
+                var id = 'b' + i + col;
+                var newDiv = document.getElementById(id);
+                if (newDiv && newDiv.innerHTML !== '') {
+                    present = true;
+                    console.log(i);
+                    break;
+                }
+                i--;
             }
-            i--;
         }
-        dist = (8 - i) * 75 + 27.5;
-    } else if (bullet.classList.contains('up')) {
-        let i = row + 1;
-        while (i <= 8) {
-            const id = 'b' + i + col;
-            newDiv = document.getElementById(id);
-            if (newDiv && newDiv.innerHTML !== '') {
-                present = true;
-                break;
+        else {
+            var i = row + 1;
+            console.log(i);
+            while (i <= 8) {
+                var id = 'b' + i + col;
+                var newDiv = document.getElementById(id);
+                console.log(newDiv.innerText);
+                if (newDiv && newDiv.innerHTML !== '') {
+                    present = true;
+                    console.log(i);
+                    break;
+                }
+                i++;
             }
-            i++;
         }
-        dist = (i - 1) * 75 + 27.5;
-    } else if (bullet.classList.contains('left')) {
-        let i = col - 1;
-        while (i > 0) {
-            const id = 'b' + row + i;
-            newDiv = document.getElementById(id);
-            if (newDiv && newDiv.innerHTML !== '') {
-                present = true;
-                break;
-            }
-            i--;
+        console.log(i);
+        if (color == 'red') {
+            var dist = (8 - i) * 75 + 27.5;
         }
-        dist = (Math.abs(canon_col - i)) * 75 + 27.5;
-    } else if (bullet.classList.contains('right')) {
-        let i = col + 1;
-        while (i <= 8) {
-            const id = 'b' + row + i;
-            newDiv = document.getElementById(id);
-            if (newDiv && newDiv.innerHTML !== '') {
-                present = true;
-                break;
-            }
-            i++;
+        else if (color == 'blue') {
+            var dist = (i - 1) * 75 + 27.5;
+            console.log(dist);
         }
-        dist = (Math.abs(canon_col - i)) * 75 + 27.5;
     }
-
-    if (present) {
-        console.log("Element found");
+    else if (bullet.className == 'left' || bullet.className == 'right') {
+        if (bullet.className == 'left') {
+            var i = col - 1;
+            while (i > 0) {
+                var id = 'b' + row + i;
+                var newDiv = document.getElementById(id);
+                if (newDiv && newDiv.innerHTML !== '') {
+                    present = true;
+                    break;
+                }
+                i--;
+            }
+        }
+        else {
+            var i = col + 1;
+            while (i <= 8) {
+                var id = 'b' + row + i;
+                var newDiv = document.getElementById(id);
+                if (newDiv && newDiv.innerHTML !== '') {
+                    present = true;
+                    break;
+                }
+                i++;
+            }
+        }
+        var dist = (Math.abs(canon_col - i)) * 75 + 27.5;
+    }
+    if (present == true) {
+        console.log("element found");
         console.log(newDiv.innerText);
-        return [dist, newDiv, newDiv.id]; // distance, stop element, stop id
-    } else {
-        console.log('Free path');
+        return [dist, newDiv, id];//distance,stopele,stopid
+    }
+    else {
+        console.log('free path');
         console.log(dist);
-        return [dist, false, false]; // dist, no element, no id
+        return [dist, false, false];//dist,no element,no id
     }
 }
 
@@ -566,19 +546,11 @@ function checkele(bullet, stopele, c) {
     bulletDirection = bullet.classList[0];
     console.log(bulletDirection);
     console.log(stopele.innerText);
-    var color='';
     var opp = c == 'r' ? 'b' : 'r';
-    if(opp==='r'){
-        color='red';
-    }
-    else{
-        color='blue';
-    }
 
     if (stopele.innerText == `${opp}titan`) {
         alert(`${c} won`);
         pauseBothTimers();
-        console.log(bulletDirection);
         removeImage(stopele.id);
         showGameOverScreen();
 
@@ -668,10 +640,6 @@ function checkele(bullet, stopele, c) {
     
         if(newDirection==='false'){
             removeImage(stopele.id);
-            console.log(color);
-            console.log(canonid);
-            console.log(bullet);
-            // calc_dist(bullet,color,stopele.id,canonid);
         }
     
         return newDirection;
@@ -765,10 +733,6 @@ function moveupBulletRed(stopele, c) {
 
     // Recursive movement handling
     const handleMovement = () => {
-        // var canonBox = bullet.parentElement;
-        // // bullet.style.visibility = "visible";
-        // var canonid = canonBox.id;
-        // console.log(canonid);
         console.log('handlemovement called !!');
         if (stopele) {
             var newDirection = checkele(bullet, stopele1, 'r');
@@ -839,9 +803,6 @@ function moveupBulletBlue(stopele, c) {
 
     // Recursive movement handling
     var handleMovement = () => {
-        // var canonBox = bullet.parentElement;
-        // // bullet.style.visibility = "visible";
-        // var canonid = canonBox.id;
         console.log('handlemovement called !!');
         if (stopele) {
             var newDirection = checkele(bullet, stopele1, 'b');
@@ -905,8 +866,6 @@ function fireBullet(c) {
             moveupBulletBlue(canonid);
         }
     }
-var revideoclicked=false;
-
 
 document.addEventListener("DOMContentLoaded", function() {
     const boxPieceMapping = {
@@ -976,8 +935,27 @@ document.addEventListener("DOMContentLoaded", function() {
         "b18": ""
     };
 
-    // Reset the game when replay button is clicked
-    const replayButton = document.getElementById("replayButton");
+document.getElementById("pauseButton").addEventListener("click", function() {
+    isPaused = true;
+    pauseBothTimers();
+    ncp=currentPlayer;
+    currentPlayer=" ";
+    document.getElementById("pausedScreen").style.display = "flex"; // Show the paused screen
+});
+console.log(isPaused);
+document.getElementById("resumeButton").addEventListener("click", function() {
+    isPaused = false;
+    currentPlayer = ncp;
+    if(currentPlayer==='b'){
+        startGameTimer();
+    }
+    if(currentPlayer==='r'){
+        change();
+
+    }
+    document.getElementById("pausedScreen").style.display = "none"; // Corrected display property value
+});
+const replayButton = document.getElementById("replayButton");
     replayButton.addEventListener("click", function() {
         resetGame(boxPieceMapping);
     });
@@ -1055,31 +1033,6 @@ function storeSidebarContent() {
 }
 
 
-let isPaused = false;
-let ncp;
-
-document.getElementById("pauseButton").addEventListener("click", function() {
-    isPaused = true;
-    pauseBothTimers();
-    ncp=currentPlayer;
-    currentPlayer=" ";
-    document.getElementById("pausedScreen").style.display = "flex"; // Show the paused screen
-});
-console.log(isPaused);
-document.getElementById("resumeButton").addEventListener("click", function() {
-    isPaused = false;
-    currentPlayer = ncp;
-    if(currentPlayer==='b'){
-        startGameTimer();
-    }
-    if(currentPlayer==='r'){
-        change();
-
-    }
-    document.getElementById("pausedScreen").style.display = "none"; // Corrected display property value
-});
-
-
 class Timer {
     constructor(startMinutes, displayElement, onComplete) {
         this.startMinutes = startMinutes;
@@ -1135,7 +1088,9 @@ const redTimer = new Timer(1, redDisplay);
 const blueTimer = new Timer(1, blueDisplay, () => {
     blueTimer.pause();
     redTimer.start();
-    // robotMove();
+    if(singleplayermode===true){
+        robotMove();
+    }
 });
 
 // Update the displays initially
@@ -1151,7 +1106,7 @@ function change(){
     blueTimer.pause();
     redTimer.start();
     if(singleplayermode===true){
-    robotMove();
+        robotMove();
     }
 }
 
@@ -1164,10 +1119,8 @@ function resetBothTimers() {
     redTimer.reset();
     blueTimer.reset();
 }
-document.getElementById('start-game').addEventListener('click', startGameTimer);
 document.getElementById('pause-both').addEventListener('click', pauseBothTimers);
 document.getElementById('reset-both').addEventListener('click', resetBothTimers);
-
 
 function appendIdToList(itemId, list1, currentPlayer,m,dr,currentRotation) {
     console.log(itemId);
@@ -1216,7 +1169,7 @@ function appendToSidebar(item1,currentPlayer,item2,dr,currentRotation){
 
     }
     else if(dr==='destroyed'){
-        row.textContent=item1+" "+dr;
+        row.textContent=item1+" "+dr+piecename1+piecename;
         }
     else if(item1===item2){
         row.textContent = item1+" "+(currentPlayer === 'r' ? 'Red : ' : 'Blue : ') +piecename+" "+ "rotates"+" "+ dr+" "+currentRotation;
@@ -1229,12 +1182,13 @@ function appendToSidebar(item1,currentPlayer,item2,dr,currentRotation){
     sidebar.appendChild(row);
 }
 
-
+var dpiece='';
 function removeImage(boxId) {
     const box = document.getElementById(boxId);
     let dr='destroyed'
     const element = document.getElementById(boxId);
     if (element) {
+        dpiece=element.innerText;
         element.innerText = '';
     } else {
         console.log(`No element found with ID ${boxId}`);
@@ -1251,157 +1205,6 @@ document.getElementById('undoButton').addEventListener('click', () => {
 document.getElementById('redoButton').addEventListener('click', () => {
         redos();
 });
-
-let undoneMoves = []; // Declare undoneMoves in the global scope
-
-// 
-function undos(sidebarContent) {
-
-    currentPlayer = newcp;
-    console.log(sidebarContent);
-    if (sidebarContent.length === 0) {
-        console.log("No moves to undo.");
-        return;
-    }
-    let prevmovestring = sidebarContent.pop();
-    undoneMoves.push(prevmovestring); // Store the undone move in undoneMoves
-    console.log(prevmovestring); // Remove the last move from the list
-    console.log(prevmovestring);
-    let prevmove = prevmovestring.split(" ")[0];
-    let currmove = prevmovestring.split(" ")[4];
-    let swapmove = prevmovestring.split(" ")[7];
-    console.log(swapmove);
-
-    let rotation = null;
-    if (prevmovestring.includes("rotates")) {
-        rotation = prevmovestring.split(" ")[6];
-    }
-
-    const prevelement = document.querySelector(`#${prevmove}`);
-    let currelement = document.querySelector(`#${currmove}`);
-    console.log(currelement);
-
-    if (prevelement && currelement === null && currmove !== "swapped") {
-        console.log(rotation);
-        if (rotation === 'undefined') {
-            console.log("ls");
-            rotation = null;
-        }
-        if (rotation) {
-            const img = document.getElementById(prevelement.innerText);
-            rotation = rotation - 90;
-            img.style.transform = `rotate(${rotation}deg)`;
-        } else {
-            prevelement.innerText = prevelement.innerText;
-            // undos(sidebarContent);
-        }
-    } else if (currmove === "swapped") {
-        
-        console.log(swapmove);
-        const currElementSwapped = document.querySelector(`#${swapmove}`);
-        const temp = currElementSwapped.innerHTML;
-        currElementSwapped.innerHTML = prevelement.innerHTML;
-        prevelement.innerHTML = temp;
-        insertImage();
-    } else if (currelement !== null) {
-        console.log(currmove);
-        if (prevelement && currelement) {
-            prevelement.innerText = currelement.innerText;
-            currelement.innerText = '';
-            console.log(prevelement.innerText);
-            insertImage();
-            currentPlayer = newcp;
-        } else {
-            console.log("Elements not found.");
-        }
-        insertImage();
-    } else {
-        console.log("Elements not found.");
-    }
-
-    insertImage();
-    currentPlayer = newcp;
-    // sidebarContent.push(undoneMoves);
-    // console.log(sidebarContent);
-    console.log(prevmove); // Store updated sidebar content
-}
-
-function redos() {
-    if (undoneMoves.length === 0) {
-        console.log("No moves to redo.");
-        return;
-    }
-
-    let prevmovestring = undoneMoves[undoneMoves.length-1];
-    console.log(prevmovestring);
-
-    let prevmove = prevmovestring.split(" ")[0];
-    let currmove = prevmovestring.split(" ")[4];
-    let swapmove=prevmovestring.split(" ")[7];
-
-    let rotation = null;
-    if (prevmovestring.includes("rotates")) {
-        rotation = prevmovestring.split(" ")[6];
-    }
-
-    const prevelement = document.querySelector(`#${prevmove}`);
-    const currelement = document.querySelector(`#${currmove}`);
-    console.log(currelement);
-
-    if (prevelement && currelement === null && currmove!=="swapped") {
-        console.log(rotation);
-        if (rotation === 'undefined') {
-            console.log("ls");
-            rotation = null;
-        }
-        if (rotation) {
-            const img = document.getElementById(prevelement.innerText);
-            rotation = rotation + 90;
-            img.style.transform = `rotate(${rotation}deg)`;
-        } else {
-            prevelement.innerText = prevelement.innerText;
-        }
-    }
-    else if (currmove === "swapped") {
-        
-        console.log(swapmove);
-        const currElementSwapped = document.querySelector(`#${swapmove}`);
-        const temp = currElementSwapped.innerHTML;
-        currElementSwapped.innerHTML = prevelement.innerHTML;
-        prevelement.innerHTML = temp;
-        insertImage();
-    }
-     else if (currelement !== null) {
-        console.log(currmove);
-        if (prevelement && currelement) {
-            currelement.innerText = prevelement.innerText;
-            prevelement.innerText = " ";
-            console.log(currelement.innerText);
-            insertImage();
-        } else {
-            console.log("Elements not found.");
-        }
-    } else {
-        console.log("Elements not found.");
-    }
-
-    insertImage();
-    if(newcp==='r'){
-        color='red';
-    }
-    else{
-        color='blue';
-    }
-    placeBullet(color,newcp);
-    fireBullet(newcp);
-
-    // Update currentPlayer based on newcp
-    currentPlayer = newcp === 'r' ? 'b' : 'r';
-}
-
-console.log(sidebarContent);
-
-
 function revideo(sidebarContent) {
     console.log(sidebarContent);
 
@@ -1495,6 +1298,164 @@ function revideo(sidebarContent) {
     console.log(storedData);
 }
 
+
+
+let undoneMoves = [];
+
+function undos(sidebarContent) {
+
+    currentPlayer = newcp;
+    console.log(sidebarContent);
+    if (sidebarContent.length === 0) {
+        console.log("No moves to undo.");
+        return;
+    }
+    let prevmovestring = sidebarContent.pop();
+    undoneMoves.push(prevmovestring); // Store the undone move in undoneMoves
+    console.log(prevmovestring); // Remove the last move from the list
+    console.log(prevmovestring);
+    let prevmove = prevmovestring.split(" ")[0];
+    let currmove = prevmovestring.split(" ")[4];
+    let swapmove = prevmovestring.split(" ")[7];
+    console.log(swapmove);
+    console.log(currmove);
+
+    let rotation = null;
+    if (prevmovestring.includes("rotates")) {
+        rotation = prevmovestring.split(" ")[6];
+    }
+
+    const prevelement = document.querySelector(`#${prevmove}`);
+    let currelement = document.querySelector(`#${currmove}`);
+    console.log(currelement);
+
+    if (prevelement && currelement === null && currmove !== "swapped" && currmove!==undefined) {
+        console.log(rotation);
+        if (rotation === 'undefined') {
+            console.log("ls");
+            rotation = null;
+        }
+        if (rotation) {
+            const img = document.getElementById(prevelement.innerText);
+            rotation = rotation - 90;
+            img.style.transform = `rotate(${rotation}deg)`;
+        } else {
+            prevelement.innerText = prevelement.innerText;
+            // undos(sidebarContent);
+        }
+    } else if (currmove === "swapped") {
+        
+        console.log(swapmove);
+        const currElementSwapped = document.querySelector(`#${swapmove}`);
+        const temp = currElementSwapped.innerHTML;
+        currElementSwapped.innerHTML = prevelement.innerHTML;
+        prevelement.innerHTML = temp;
+        insertImage();
+    } else if (currelement !== null) {
+        console.log(currmove);
+        if (prevelement && currelement) {
+            prevelement.innerHTML = currelement.innerHTML;
+            currelement.innerHTML = '';
+            console.log(prevelement.innerText);
+            // insertImage();
+            currentPlayer = newcp;
+        } else {
+            console.log("Elements not found.");
+        }
+        insertImage();
+    } 
+    else if(currmove===undefined){
+        console.log("shivwanaa");
+        prevelement.innerText=dpiece;
+        insertImage();
+        undos(sidebarContent);
+        currentPlayer=newcp;
+    }
+    else {
+        console.log("Elements not found.");
+    }
+
+    insertImage();
+    currentPlayer = newcp;
+    // sidebarContent.push(undoneMoves);
+    // console.log(sidebarContent);
+    console.log(prevmove); // Store updated sidebar content
+}
+
+function redos() {
+    if (undoneMoves.length === 0) {
+        console.log("No moves to redo.");
+        return;
+    }
+
+    let prevmovestring = undoneMoves[undoneMoves.length-1];
+    console.log(prevmovestring);
+
+    let prevmove = prevmovestring.split(" ")[0];
+    let currmove = prevmovestring.split(" ")[4];
+    let swapmove=prevmovestring.split(" ")[7];
+
+    let rotation = null;
+    if (prevmovestring.includes("rotates")) {
+        rotation = prevmovestring.split(" ")[6];
+    }
+
+    const prevelement = document.querySelector(`#${prevmove}`);
+    const currelement = document.querySelector(`#${currmove}`);
+    console.log(currelement);
+
+    if (prevelement && currelement === null && currmove!=="swapped") {
+        console.log(rotation);
+        if (rotation === 'undefined') {
+            console.log("ls");
+            rotation = null;
+        }
+        if (rotation) {
+            const img = document.getElementById(prevelement.innerText);
+            rotation = rotation + 90;
+            img.style.transform = `rotate(${rotation}deg)`;
+        } else {
+            prevelement.innerText = prevelement.innerText;
+        }
+    }
+    else if (currmove === "swapped") {
+        
+        console.log(swapmove);
+        const currElementSwapped = document.querySelector(`#${swapmove}`);
+        const temp = currElementSwapped.innerHTML;
+        currElementSwapped.innerHTML = prevelement.innerHTML;
+        prevelement.innerHTML = temp;
+        insertImage();
+    }
+     else if (currelement !== null) {
+        console.log(currmove);
+        if (prevelement && currelement) {
+            currelement.innerText = prevelement.innerText;
+            prevelement.innerText = " ";
+            console.log(currelement.innerText);
+            insertImage();
+        } else {
+            console.log("Elements not found.");
+        }
+    } else {
+        console.log("Elements not found.");
+    }
+
+    insertImage();
+    if(newcp==='r'){
+        color='red';
+    }
+    else{
+        color='blue';
+    }
+    placeBullet(color,newcp);
+    fireBullet(newcp);
+
+    // Update currentPlayer based on newcp
+    currentPlayer = newcp === 'r' ? 'b' : 'r';
+}// Declare undoneMoves in the global scope
+
+
 var set = new Set();
 var randomx = 0;
 var randomy = 0;
@@ -1565,7 +1526,6 @@ function getOppositePosition(position) {
 }
 
 
-
 document.addEventListener('DOMContentLoaded', function() {
     const single = document.getElementById('myButton');
     const optionsDiv = document.getElementById('options');
@@ -1607,8 +1567,6 @@ let computer='';
         console.log(computer);
     }
 }
-
-console.log(love);
 
 
 function sleep(ms) {
@@ -1719,3 +1677,65 @@ async function robotMove() {
     // resetBoxColors();
     const singlePlayerMode = true; 
 };
+// document.getElementById("menu").addEventListener("click", function() {
+//     var optionsDiv = document.getElementById("options");
+//     if (optionsDiv.style.display === "none") {
+//       optionsDiv.style.display = "block";
+//     } else {
+//       optionsDiv.style.display = "none";
+//     }
+//   });
+  
+//   document.getElementById("myButton").addEventListener("click", function() {
+//     var submenuDiv = document.getElementById("submenu");
+//     if (submenuDiv.style.display === "none") {
+//       submenuDiv.style.display = "block";
+//     } else {
+//       submenuDiv.style.display = "none";
+//     }
+//   });
+// document.getElementById("menu").addEventListener("click", function() {
+//     var menuOptionsDiv = document.getElementById("menuOptions");
+//     if (menuOptionsDiv.style.display === "none") {
+//       menuOptionsDiv.style.display = "block";
+//     } else {
+//       menuOptionsDiv.style.display = "none";
+//     }
+//   });
+  
+//   document.getElementById("myButton").addEventListener("click", function() {
+//     var submenuDiv = document.getElementById("submenu");
+//     if (submenuDiv.style.display === "none") {
+//       submenuDiv.style.display = "block";
+//     } else {
+//       submenuDiv.style.display = "none";
+//     }
+//   });
+document.getElementById("menu").addEventListener("click", function() {
+    var overlay = document.getElementById("overlay");
+    var menuOptions = document.getElementById("menuOptions");
+    
+    if (overlay.style.display === "none") {
+      overlay.style.display = "block";
+      menuOptions.style.display = "block";
+    } else {
+      overlay.style.display = "none";
+      menuOptions.style.display = "none";
+    }
+  });
+  
+  document.getElementById("random").addEventListener("click", function() {
+    // Add functionality for the "Randomized" button here
+    document.getElementById("overlay").style.display = "none";
+  });
+  
+  document.getElementById("myButton").addEventListener("click", function() {
+    // Add functionality for the "Single Player Mode" button here
+    document.getElementById("overlay").style.display = "none";
+  });
+  
+
+
+  
+
+
