@@ -14,27 +14,27 @@
 
 <body>
 
-    <h1>Chess</h1>
-    <h2 id="tog">Blue's Turn</h2>
+    <h1></h1>
+    <h2 id="tog"></h2>
 
     <ul>
 
         <div class="divv" id="row8">
-            <li class="box" id="b81"><img src="./img/rtitan.png" id="rtitan"></li>
+            <li class="box" id="b81">rtitan</li>
             <li class="box" id="b82"></li>
-            <li class="box" id="b83"><img src="./img/rtank.png"></li>
+            <li class="box" id="b83">rtank</li>
             <li class="box" id="b84"></li>
             <li class="box" id="b85"></li>
             <li class="box" id="b86"></li>
-            <li class="box" id="b87"><img src="./img/rcanon.png"></li>
+            <li class="box" id="b87">rcanon</li>
             <li class="box" id="b88"></li>
         </div>
         <div class="divv" id="row7">
             <li class="box" id="b71"></li>
-            <li class="box" id="b72"><img src="./img/rricochet.png"></li>
-            <li class="box" id="b73"><img src="./img/rsemi.png"></li>
+            <li class="box" id="b72"></li>
+            <li class="box" id="b73">rsemi</li>
             <li class="box" id="b74"></li>
-            <li class="box" id="b75"></li>
+            <li class="box" id="b75">rtank</li>
             <li class="box" id="b76"></li>
             <li class="box" id="b77"></li>
             <li class="box" id="b78"></li>
@@ -44,7 +44,7 @@
             <li class="box" id="b62"></li>
             <li class="box" id="b63"></li>
             <li class="box" id="b64"></li>
-            <li class="box" id="b65"></li>
+            <li class="box" id="b65">rricochet</li>
             <li class="box" id="b66"></li>
             <li class="box" id="b67"></li>
             <li class="box" id="b68"></li>
@@ -67,7 +67,7 @@
             <li class="box" id="b45"></li>
             <li class="box" id="b46"></li>
             <li class="box" id="b47"></li>
-            <li class="box" id="b48"></li>
+            <li class="box" id="b48">bsemi</li>
         </div>
         <div class="divv" id="row3">
             <li class="box" id="b31"></li>
@@ -75,34 +75,45 @@
             <li class="box" id="b33"></li>
             <li class="box" id="b34"></li>
             <li class="box" id="b35"></li>
-            <li class="box" id="b36"></li>
+            <li class="box" id="b36">bricochet</li>
             <li class="box" id="b37"></li>
             <li class="box" id="b38"></li>
         </div>
 
         <div class="divv" id="row2">
             <li class="box Wpawn" id="b21"></li>
-            <li class="box Wpawn" id="b22"><img src="./img/bricochet.png"></li>
-            <li class="box Wpawn" id="b23"><img src="./img/bsemi.png"></li>
+            <li class="box Wpawn" id="b22"></li>
+            <li class="box Wpawn" id="b23"></li>
             <li class="box Wpawn" id="b24"></li>
             <li class="box Wpawn" id="b25"></li>
             <li class="box Wpawn" id="b26"></li>
-            <li class="box Wpawn" id="b27"></li>
+            <li class="box Wpawn" id="b27">btank</li>
             <li class="box Wpawn" id="b28"></li>
         </div>
         <div class="divv" id="row1">
             <li class="box" id="b11"></li>
-            <li class="box" id="b12"><img src="./img/btank.png"></li>
+            <li class="box" id="b12">btank</li>
             <li class="box" id="b13"></li>
-            <li class="box" id="b14"><img src="./img/btitan.png"></li>
-            <li class="box" id="b15"><img src="./img/bcanon.png"></li>
+            <li class="box" id="b14">btitan</li>
+            <li class="box" id="b15">bcanon</li>
             <li class="box" id="b16"></li>
             <li class="box" id="b17"></li>
             <li class="box" id="b18"></li>
         </div>
 
     </ul>
-    <div id="bullet">
+    
+ <div id="container" style="position: relative;">
+        <div id="bullet" class="right" style="width: 20px; height: 20px; background-color: red; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">
+            <div id="arrow" style="width: 20px; height: 20px; background-image: url('./arrow.png'); background-size: cover; position: absolute; left: 25px; z-index: 2;">
+            </div>
+        </div>
+    </div> 
+    
+    <div id="rotate">
+        <button id="left-turn">Turn Left</button>
+        <button id="right-turn">Turn Right</buton>
+        <button id="swap-button">Swap</button> 
     </div>
     <div id="gameOverScreen" style="display: none;">
         <h1>Game Over</h1>
@@ -110,32 +121,55 @@
         <div id="buttonContainer">
             <button id="replayButton">Replay</button>
         </div>
+        <div id="buttonContainer">
+            <button id="revideob">Revideo</button>
+        </div>
     </div> 
+  <!-- <div id="pausedScreen">
+    <div id="pausedMessage">Game Paused</div>
+</div>
+
+<button id="pauseButton">Pause Game</button> -->
+<div id="gameContainer">
+    <!-- Your game content goes here -->
+</div>
+
+<div id="pausedScreen">
+    <div id="pausedMessage">Game Paused</div>
+    <button id="resumeButton">Resume Game</button>
+</div>
+
+<button id="pauseButton">Pause Game</button>
 
 
-    
-    
-    </div>
-    <div id="timer">10</div>
-    <button id="pauseButton">Pause</button>
-    <button id="playButton">Play</button>
+<div class="timer-container">
+    <div id="blue-timer" class="timer">1:00</div>
+    <div id="red-timer" class="timer">1:00</div>
+</div>
 
-    <div id="pausedScreen" class="paused-screen">
-        <div class="paused-message">Game Paused</div>
-        <button id="playButtonPaused">Play</button>
+<div class="controls">
+    <button id="start-game">Start Game</button>
+    <button id="pause-both">Pause</button>
+    <button id="reset-both">Reset</button>
+</div>
+<button id="undoButton">Undo</button>
+<button id="redoButton">Redo</button>
+<button id="random">randomized</button>
+<button id="myButton">singleplayermode</button>
+<div id="options" style="display: none;">
+  <button id="red">Red</button>
+  <button id="blue">Blue</button>
+</div>
+
+
+
+
+<div class="container">
+    <div class="sidebar" id="sidebar">
+      <!-- Rows will be added dynamically here -->
     </div>
-    
-    <div id="rotate">
-        <button id="left-turn">Turn Left</button>
-        <button id="right-turn">Turn Right</buton>
-    </div>
+
+
     <script src="Chess.js"></script>
 </body>
-
-<script>
-
-
-
-</script>
-
 </html>
