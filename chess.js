@@ -17,6 +17,7 @@ var sidebarContent=[];
 var singleplayermode=false;
 const randombutton = document.getElementById('random');
         randombutton.addEventListener('click', function() {
+            document.getElementById("menuscreen").style.display="none";
             console.log("shivu");
             positioned=false;
             removeAllImages();
@@ -1118,7 +1119,7 @@ function change(){
     redTimer.start();
     document.getElementById('playerTurn').textContent = "Red's Turn";
     document.getElementById('playerTurn').style.backgroundColor = "red";
-    menu.disabled=true;
+    
 
 
     if(singleplayermode===true){
@@ -1129,7 +1130,7 @@ function change(){
 function pauseBothTimers() {
     redTimer.pause();
     blueTimer.pause();
-    menu.disabled=true;
+   
 }
 
 function resetBothTimers() {
@@ -1542,6 +1543,9 @@ function getOppositePosition(position) {
     const oppositeY = 9 - y; // Opposite column on an 8x8 board
     return `b${oppositeX}${oppositeY}`;
 }
+document.getElementById("menu").addEventListener("click", function() {
+    document.getElementById("menuscreen").style.display = "flex"; // Show the paused screen
+});
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -1565,6 +1569,7 @@ document.addEventListener('DOMContentLoaded', function() {
       singleplayermode=true;
       console.log('blueOption 2 clicked');
       cplayer('b');
+      document.getElementById("menuscreen").style.display="none";
     });
   });
 let computer='';
@@ -1684,39 +1689,7 @@ async function robotMove() {
         currentPlayer='b';
 
     }
-
-    // resetBoxColors();
-    const singlePlayerMode = true; 
 };
-document.getElementById("menu").addEventListener("click", function() {
-    var overlay = document.getElementById("overlay");
-    var menuOptions = document.getElementById("menuOptions");
-    
-    if (overlay.style.display === "none") {
-      overlay.style.display = "block";
-      menuOptions.style.display = "block";
-    } else {
-      overlay.style.display = "none";
-      menuOptions.style.display = "none";
-    }
-  });
-  
-
-let buttonClicked = false;
-
-document.getElementById("random").addEventListener("click", function() {
-    // Add functionality for the "Randomized" button here
-    buttonClicked = true;
-    document.getElementById("overlay").style.display = "none";
-});
-
-document.getElementById("myButton").addEventListener("click", function() {
-    // Add functionality for the "Single Player Mode" button here
-    const blueButton = document.getElementById("blue");
-    if (blueButton.classList.contains("selected") && !buttonClicked) {
-        document.getElementById("overlay").style.display = "none";
-    }
-});
 
 
   

@@ -297,6 +297,65 @@ li {
     background-size: contain;
     color: white;
 }
+#menuscreen{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+
+}
+#myButton{
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 150px;
+    height: 50px;
+    font-size: 16px;
+    margin:10px;
+    cursor: pointer;
+}
+#myButton::after {
+    content: "";
+    display: block;
+}
+#blue{
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 80px;
+    height: 30px;
+    font-size: 12px;
+    margin:10px;
+    cursor: pointer;
+
+}
+#random{
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 150px;
+    height: 50px;
+    font-size: 16px;
+    cursor: pointer;
+
+}
+#random::after {
+    content: "";
+    display: block;
+}
+
 .timer-container {
     display: flex;
     flex-direction: column;
